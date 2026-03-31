@@ -1,0 +1,67 @@
+model:
+  model_variant: lorentz_adapters
+  num_classes: 10
+  embed_dim: 128
+  num_heads: 8
+  num_layers: 8
+  num_cls_layers: 2
+  num_mlp_layers: 0
+  hidden_dim: 256
+  hidden_mv_channels: 8
+  in_s_channels:
+  out_s_channels:
+  hidden_s_channels: 16
+  attention: {}
+  mlp: {}
+  reinsert_mv_channels:
+  reinsert_s_channels:
+  dropout: 0.1
+  expansion_factor: 4
+  max_num_particles: 128
+  num_particle_features: 4
+  pair_embed_dims: [64, 64, 64]
+  mask: true
+  weights:
+  inference: false
+  adapter_every_n_layers: 2
+  adapter_width: 1
+  adapter_hidden_dim: 48
+  adapter_rank: 16
+  adapter_dropout: 0.0
+  adapter_position: after_ffn
+  reconstruction_dim: 5
+
+train:
+  batch_size: 128
+  criterion:
+    name: stable_reconstruction_loss
+    kwargs:
+      loss_coef: [0.3, 0.2, 0.2, 0.3]
+      robust: huber
+      huber_delta: 0.1
+  optimizer:
+    name: adamw
+    kwargs:
+      lr: 0.00015
+      weight_decay: 0.0
+  scheduler:
+    name: exponential_lr
+    kwargs:
+      gamma: 0.95
+  callbacks:
+    - name: early_stopping
+      kwargs:
+        monitor: val_loss
+        mode: min
+        patience: 4
+        min_delta: 0.0005
+  num_epochs: 6
+  start_epoch: 0
+  logging_dir: results
+  logging_steps: 50
+  progress_bar: false
+  save_best: true
+  save_ckpt: true
+  save_fig: false
+  num_workers: 4
+  pin_memory: true

@@ -1,0 +1,49 @@
+model:
+  model_variant: part
+  num_classes: 10
+  embed_dim: 128
+  num_heads: 8
+  num_layers: 8
+  num_cls_layers: 2
+  num_mlp_layers: 0
+  hidden_dim: 256
+  dropout: 0.1
+  expansion_factor: 4
+  max_num_particles: 128
+  num_particle_features: 4
+  pair_embed_dims: [64, 64, 64]
+  mask: false
+  weights:
+  inference: false
+
+train:
+  batch_size: 256
+  criterion:
+    name: cross_entropy_loss
+    kwargs: {}
+  optimizer:
+    name: adamw
+    kwargs:
+      lr: 0.0005
+      weight_decay: 0.0001
+  scheduler:
+    name: exponential_lr
+    kwargs:
+      gamma: 0.92
+  callbacks:
+    - name: early_stopping
+      kwargs:
+        monitor: val_loss
+        mode: min
+        patience: 4
+        min_delta: 0.0005
+  num_epochs: 8
+  start_epoch: 0
+  logging_dir: results
+  logging_steps: 50
+  progress_bar: false
+  save_best: true
+  save_ckpt: true
+  save_fig: false
+  num_workers: 4
+  pin_memory: true
