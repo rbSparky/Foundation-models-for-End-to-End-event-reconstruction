@@ -1,3 +1,5 @@
+# this is the old readme, but all the code updates are in the folders and i have uploaded the results as a zip file so they can be verified
+
 # Event Classification with Masked Transformer Autoencoders <img src='assets/pics/gsoc_icon.png' alt="GSoC" width='30'/>
 
 LorentzParT, a Particle Transformer model with LGATr's EquiLinear layers for jet physics tasks on JetClass dataset, including jet classification and masked particle reconstruction with momentum-conservation losses.
